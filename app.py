@@ -21,7 +21,7 @@ app.config.update(mail_settings)
 
 CORS(app)
 mail = Mail(app)
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgres://pyhnthwxyuejjv:34de9901b3445b932d125723a921271f088806f6eea0c12299ad9683e84170df@ec2-174-129-229-162.compute-1.amazonaws.com:5432/d2d73itl4lj0eu"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgres://pdizdhghfvrnrm:175ebc0c8d03d6e6b91d6f732b80746f5303343f3550d65b0a299a4a0a771e56@ec2-174-129-255-4.compute-1.amazonaws.com:5432/dihfrvgg03c37"
 
 heroku = Heroku(app)
 bcrypt = Bcrypt(app)
