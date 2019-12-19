@@ -5,19 +5,22 @@ from flask_heroku import Heroku
 from flask_bcrypt import Bcrypt 
 from flask_marshmallow import Marshmallow
 from flask_mail import Mail, Message
+
 import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 app = Flask(__name__)
 
-mail_settings = {
-    "MAIL_SERVER": "smtp.googlemail.com",
-    "MAIL_PORT": 465,
-    "MAIL_USE_TLS": False,
-    "MAIL_USE_SSL": True,
-    "MAIL_USERNAME": "che.dami@gmail.com",
-    "MAIL_PASSWORD": "madisonfaith"
-}
-app.config.update(mail_settings)
+# mail_settings = {
+#     "MAIL_SERVER": "smtp.googlemail.com",
+#     "MAIL_PORT": 465,
+#     "MAIL_USE_TLS": False,
+#     "MAIL_USE_SSL": True,
+#     "MAIL_USERNAME": "che.dami@gmail.com",
+#     "MAIL_PASSWORD": "madisonfaith"
+# }
+# app.config.update(mail_settings)
 
 CORS(app)
 mail = Mail(app)
@@ -91,13 +94,31 @@ def guest_rsvp():
         db.session.add(record)
         db.session.commit()
 
-        msg = Message("Rsvp Recieved",
-                  sender="che.dami@gmail.com",
-                  recipients=[email])
+        # msg = Message("Rsvp Recieved",
+        #           sender="che.dami@gmail.com",
+        #           recipients=[email])
 
-        msg.html = "Thank you for RSVP'ing to my event.  I will send an invitation to you as soon as possible to your email: %s" % email
+        # msg.html = "Thank you for RSVP'ing to my event.  I will send an invitation to you as soon as possible to your email: %s" % email
 
-        mail.send(msg)
+        # mail.send(msg)
+
+        # sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
+
+        print(email)
+
+        message = Mail(
+        from_email='che.dami@gmail.com',
+        to_emails=email,
+        subject='RSVP Received',
+        html_content="Thank you for RSVP'ing to my event.  I will send an invitation to you as soon as possible to your email: %s" % email)
+    try:
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(str(e))
 
         return jsonify("Rsvp Created")
     return jsonify("Error: Request must be sent as JSON")

@@ -16,6 +16,7 @@ flask-bcrypt = "*"
 flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
 flask-mail = "*"
+sendgrid = "*"
 
 [requires]
 python_version = "3.7"
