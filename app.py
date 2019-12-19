@@ -94,18 +94,6 @@ def guest_rsvp():
         db.session.add(record)
         db.session.commit()
 
-        # msg = Message("Rsvp Recieved",
-        #           sender="che.dami@gmail.com",
-        #           recipients=[email])
-
-        # msg.html = "Thank you for RSVP'ing to my event.  I will send an invitation to you as soon as possible to your email: %s" % email
-
-        # mail.send(msg)
-
-        # sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
-
-        print(email)
-
         message = Mail(
         from_email='che.dami@gmail.com',
         to_emails=email,
