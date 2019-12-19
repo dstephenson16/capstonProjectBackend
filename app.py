@@ -105,10 +105,11 @@ def guest_rsvp():
         print(response.status_code)
         print(response.body)
         print(response.headers)
+        return jsonify("Rsvp created, please check your email. If can't find, check spam as well!")
     except Exception as e:
         print(str(e))
 
-        return jsonify("Rsvp Created")
+        return jsonify("Error with mail")
     return jsonify("Error: Request must be sent as JSON")
 
 @app.route("/rsvp/admin/get", methods=["GET"])
